@@ -40,17 +40,17 @@ typedef NSMutableDictionary<NSString *, id> SDCallbacksDictionary;
 @property (strong, nonatomic, nullable) NSMutableData *imageData;
 @property (copy, nonatomic, nullable) NSData *cachedData; // for `SDWebImageDownloaderIgnoreCachedResponse`
 
-// This is weak because it is injected by whoever manages this session. If this gets nil-ed out, we won't be able to run
-// the task associated with this operation
+// 这很弱，因为它是由管理这个会话的人注入的。如果这种情况发生，我们将无法运行。
+// 与此操作相关的任务。
 @property (weak, nonatomic, nullable) NSURLSession *unownedSession;
-// This is set if we're using not using an injected NSURLSession. We're responsible of invalidating this one
+// 如果我们不使用注入的NSURLSession，就会设置这个。我们有责任让这个失效。
 @property (strong, nonatomic, nullable) NSURLSession *ownedSession;
 
 @property (strong, nonatomic, readwrite, nullable) NSURLSessionTask *dataTask;
 
 @property (strong, nonatomic, nonnull) dispatch_semaphore_t callbacksLock; // a lock to keep the access to `callbackBlocks` thread-safe
 
-@property (strong, nonatomic, nonnull) dispatch_queue_t coderQueue; // the queue to do image decoding
+@property (strong, nonatomic, nonnull) dispatch_queue_t coderQueue; // 进行图像解码的队列。
 #if SD_UIKIT
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskId;
 #endif
@@ -101,9 +101,9 @@ typedef NSMutableDictionary<NSString *, id> SDCallbacksDictionary;
     LOCK(self.callbacksLock);
     NSMutableArray<id> *callbacks = [[self.callbackBlocks valueForKey:key] mutableCopy];
     UNLOCK(self.callbacksLock);
-    // We need to remove [NSNull null] because there might not always be a progress block for each callback
+    // 我们需要删除[NSNull null]，因为每个回调可能不总是有一个进度块。
     [callbacks removeObjectIdenticalTo:[NSNull null]];
-    return [callbacks copy]; // strip mutability here
+    return [callbacks copy]; // 带易变性在这里
 }
 
 - (BOOL)cancel:(nullable id)token {
@@ -152,9 +152,9 @@ typedef NSMutableDictionary<NSString *, id> SDCallbacksDictionary;
             sessionConfig.timeoutIntervalForRequest = 15;
             
             /**
-             *  Create the session for this task
-             *  We send nil as delegate queue so that the session creates a serial operation queue for performing all delegate
-             *  method calls and completion handler calls.
+             *  为该任务创建会话。
+             *  我们将nil作为委托队列发送，这样会话就会为执行所有委托创建一个串行操作队列。
+             *  方法调用和完成处理程序调用。
              */
             session = [NSURLSession sessionWithConfiguration:sessionConfig
                                                     delegate:self
@@ -163,7 +163,7 @@ typedef NSMutableDictionary<NSString *, id> SDCallbacksDictionary;
         }
         
         if (self.options & SDWebImageDownloaderIgnoreCachedResponse) {
-            // Grab the cached data for later check
+            // 获取缓存的数据以供以后检查。
             NSURLCache *URLCache = session.configuration.URLCache;
             if (!URLCache) {
                 URLCache = [NSURLCache sharedURLCache];

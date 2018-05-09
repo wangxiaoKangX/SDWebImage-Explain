@@ -277,7 +277,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
             @autoreleasepool {
                 NSData *data = imageData;
                 if (!data && image) {
-                    // If we do not have any data to detect image format, check whether it contains alpha channel to use PNG or JPEG format
+                    // 如果我们没有任何数据来检测图像格式，请检查它是否包含使用PNG或JPEG格式的alpha通道。
                     SDImageFormat format;
                     if (SDCGImageRefContainsAlpha(image.CGImage)) {
                         format = SDImageFormatPNG;
@@ -311,7 +311,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     });
 }
 
-// Make sure to call form io queue by caller
+// 一定要通过调用方调用表单io队列。
 - (void)_storeImageDataToDisk:(nullable NSData *)imageData forKey:(nullable NSString *)key {
     if (!imageData || !key) {
         return;
@@ -323,12 +323,12 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     
     // get cache Path for image key
     NSString *cachePathForKey = [self defaultCachePathForKey:key];
-    // transform to NSUrl
+    // 变换NSUrl
     NSURL *fileURL = [NSURL fileURLWithPath:cachePathForKey];
     
     [imageData writeToURL:fileURL options:self.config.diskCacheWritingOptions error:nil];
     
-    // disable iCloud backup
+    // 禁用iCloud备份
     if (self.config.shouldDisableiCloud) {
         [fileURL setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
     }

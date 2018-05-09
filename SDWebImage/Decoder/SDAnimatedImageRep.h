@@ -10,8 +10,8 @@
 
 #if SD_MAC
 
-// A subclass of `NSBitmapImageRep` to fix that GIF loop count issue because `NSBitmapImageRep` will reset `NSImageCurrentFrameDuration` by using `kCGImagePropertyGIFDelayTime` but not `kCGImagePropertyGIFUnclampedDelayTime`.
-// Built in GIF coder use this instead of `NSBitmapImageRep` for better GIF rendering. If you do not want this, only enable `SDWebImageImageIOCoder`, which just call `NSImage` API and actually use `NSBitmapImageRep` for GIF image.
+// “NSBitmapImageRep”的一个子类来修复这个GIF循环数问题，因为“NSBitmapImageRep”将使用“kCGImagePropertyGIFDelayTime”来重置“NSImageCurrentFrameDuration”，而不是“kCGImagePropertyGIFUnclampedDelayTime”。
+// 构建在GIF编码中使用这个代替“NSBitmapImageRep”来更好的GIF渲染。如果你不想要这个，只需要启用“SDWebImageImageIOCoder”，它只调用“NSImage”API，并实际使用“NSBitmapImageRep”作为GIF图像。
 
 @interface SDAnimatedImageRep : NSBitmapImageRep
 
